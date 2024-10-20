@@ -11,7 +11,7 @@ export default function Welcome({navigation}) {
       style={{
         flex: 1
       }}
-      colors={[Colors.secondary, Colors.primary]}
+      colors={[Colors.black,Colors.black]}
     >   
       <View style={{ flex: 1,marginTop:50}}>
         <View>
