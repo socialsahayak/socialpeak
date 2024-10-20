@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
@@ -7,7 +7,7 @@ import Checkbox from 'expo-checkbox';
 import Button from '../components/Button';
 import { Image } from 'react-native';
 
-const Signup = () => {
+const Signup = ({navigation}) => {
   const [isPasswordShown,setIsPasswordShown]=useState(false);
   const [isChecked,setIsChecked]=useState(false);
   return (
@@ -32,6 +32,32 @@ const Signup = () => {
             fontSize:16,
             fontWeight:400,
             marginVertical:8
+          }}>Name</Text>
+          <View style={{
+            width:"100%",
+            height:48,
+            borderColor:'#808080',
+            borderWidth:1,
+            borderRadius:8,
+            alignItems:'center',
+            justifyContent:'center',
+            paddingLeft:22,
+
+          }}>
+            <TextInput 
+            placeholder='Enter your Name'
+            placeholderTextColor={Colors.black}
+            keyboardType='default'
+            style={{
+              width:"100%"
+            }}/>
+        </View>
+      </View>
+      <View style={{marginBottom:12}}>
+          <Text style={{
+            fontSize:16,
+            fontWeight:400,
+            marginVertical:8
           }}>Email Address</Text>
           <View style={{
             width:"100%",
@@ -46,49 +72,10 @@ const Signup = () => {
           }}>
             <TextInput 
             placeholder='Enter your Email Address'
-            placeholderTextColor={Colors.black}
+            placeholderTextColor={Colors.black }
             keyboardType='email-address'
             style={{
               width:"100%"
-            }}/>
-        </View>
-      </View>
-      <View style={{marginBottom:12}}>
-          <Text style={{
-            fontSize:16,
-            fontWeight:400,
-            marginVertical:8
-          }}>Mobile Number</Text>
-          <View style={{
-            width:"100%",
-            height:48,
-            borderColor:'#808080',
-            borderWidth:1,
-            borderRadius:8,
-            alignItems:'center',
-            flexDirection:"row",
-
-            justifyContent:'space-between',
-            paddingLeft:22,
-
-          }}>
-            <TextInput 
-            placeholder='+91'
-            placeholderTextColor={Colors.black}
-            keyboardType='numeric'
-            style={{
-              width:"12%",
-              borderRightWidth:1,
-              borderRightColor:'#808080',
-              borderLeftColor:'#808080',
-              height:"100%"
-            }}/>
-            <TextInput 
-            placeholder='Enter your phone number'
-            placeholderTextColor={Colors.black}
-            keyboardType='numeric'
-            style={{
-              width:"80%"
             }}/>
         </View>
       </View>
@@ -196,6 +183,22 @@ const Signup = () => {
                   <Text >Continue with Google</Text>
           </TouchableOpacity>
 
+        </View>
+        <View style={{
+          flexDirection:'row',
+          justifyContent:'center',
+          marginVertical:22
+        }}>
+          <Text style={{fontSize:16,color:Colors.black}}>Already have an account?</Text>
+          <Pressable 
+          onPress={()=>navigation.navigate("login")}>
+            <Text style={{
+              fontSize:16,
+              color:Colors.primary,
+              fontWeight:'bold',
+              marginLeft:6,
+            }}>Login</Text>
+          </Pressable>
         </View>
       </View>
     </SafeAreaView>
