@@ -6,7 +6,7 @@ import {Ionicons} from '@expo/vector-icons';
 import Checkbox from 'expo-checkbox';
 import Button from '../components/Button';
 import { Image } from 'react-native';
-
+import Foect from 'foect';
 const Signup = ({navigation}) => {
   const [isPasswordShown,setIsPasswordShown]=useState(false);
   const [isChecked,setIsChecked]=useState(false);
@@ -27,39 +27,70 @@ const Signup = ({navigation}) => {
           color:Colors.black
         }}>Have engagement like never before</Text>
         </View>
-        <View style={{marginBottom:12}}>
+        <Foect.Form>{form=><View>
+          <View style={{marginBottom:12}}>
           <Text style={{
             fontSize:16,
             fontWeight:400,
             marginVertical:8
           }}>Name</Text>
-          <View style={{
-            width:"100%",
-            height:48,
-            borderColor:'#808080',
-            borderWidth:1,
-            borderRadius:8,
-            alignItems:'center',
-            justifyContent:'center',
-            paddingLeft:22,
-
-          }}>
-            <TextInput 
-            placeholder='Enter your Name'
-            placeholderTextColor={Colors.black}
-            keyboardType='default'
-            style={{
-              width:"100%"
-            }}/>
-        </View>
+            <Foect.Control name='fullName' required minLength={2} maxLength={32}>
+  {control => (
+    <View style={{ width: "100%", marginBottom: 5 }}>
+      <View
+        style={{
+          width: "100%",
+          height: 48,
+          borderColor: '#808080',
+          borderWidth: 1,
+          borderRadius: 8,
+          justifyContent: 'center',
+          paddingLeft: 22,
+        }}
+      >
+        <TextInput 
+          placeholder='Enter your Name'
+          placeholderTextColor={Colors.black}
+          keyboardType='default'
+          style={{
+            width: "100%",
+          }}
+          onBlur={control.markAsTouched}
+          onChangeText={(text) => control.onChange(text)}
+          value={control.value}
+        />
       </View>
+
+      {control.isInvalid && control.errors.required && (
+        <Text style={{ color: 'red', marginTop: 5 }}>
+          Name is required
+        </Text>
+      )}
+      {control.isInvalid &&!control.errors.required&& control.errors.minLength && (
+        <Text style={{ color: 'red', marginTop: 5 }}>
+          Name atLeast two characters long
+        </Text>
+      )}
+      {control.isInvalid && !control.errors.required&&control.errors.maxLength && (
+        <Text style={{ color: 'red', marginTop: 5 }}>
+          Name maximum 32 characters long
+        </Text>
+      )}
+    </View>
+  )}
+</Foect.Control>
+
+      </View>
+      
       <View style={{marginBottom:12}}>
           <Text style={{
             fontSize:16,
             fontWeight:400,
             marginVertical:8
           }}>Email Address</Text>
-          <View style={{
+          
+            <Foect.Control name='email' required email>{control=>(<View style={{ width: "100%", marginBottom: 5 }}>
+              <View style={{
             width:"100%",
             height:48,
             borderColor:'#808080',
@@ -70,14 +101,30 @@ const Signup = ({navigation}) => {
             paddingLeft:22,
 
           }}>
-            <TextInput 
+              <TextInput 
             placeholder='Enter your Email Address'
             placeholderTextColor={Colors.black }
             keyboardType='email-address'
             style={{
               width:"100%"
-            }}/>
+            }}
+            onBlur={control.markAsTouched}
+          onChangeText={(text) => control.onChange(text)}
+          value={control.value}
+          />
         </View>
+        {control.isInvalid && control.errors.required && (
+        <Text style={{ color: 'red', marginTop: 5 }}>
+          Email is required
+        </Text>
+      )}
+              {control.isInvalid && !control.errors.required&& control.errors.email && (
+        <Text style={{ color: 'red', marginTop: 5 }}>
+          Email is NotValid
+        </Text>
+      )}
+            </View>)}</Foect.Control>
+            
       </View>
       <View style={{marginBottom:12}}>
           <Text style={{
@@ -85,7 +132,9 @@ const Signup = ({navigation}) => {
             fontWeight:400,
             marginVertical:8
           }}>Password</Text>
-          <View style={{
+          
+            <Foect.Control name='password' required pattern={/"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"/}>{control=>(<View style={{width:'100%',marginBottom:5}}>
+              <View style={{
             width:"100%",
             height:48,
             borderColor:'#808080',
@@ -96,13 +145,17 @@ const Signup = ({navigation}) => {
             paddingLeft:22,
 
           }}>
-            <TextInput 
+                <TextInput 
             placeholder='Enter your Password'
             placeholderTextColor={Colors.black}
             secureTextEntry={isPasswordShown}
             style={{
               width:"100%"
-            }}/>
+            }}
+            onBlur={control.markAsTouched}
+            onChangeText={(text) => control.onChange(text)}
+            value={control.value}
+            />
             <TouchableOpacity 
             onPress={()=>setIsPasswordShown(!isPasswordShown)}
             style={{
@@ -119,6 +172,18 @@ const Signup = ({navigation}) => {
               
             </TouchableOpacity>
         </View>
+        {
+          control.isInvalid&&control.errors.required&&( <Text style={{marginTop:5,marginStart:5,color:'red'}}>
+            Password is required
+          </Text>)
+        }
+        {
+          control.isInvalid&&!control.errors.required &&control.errors.pattern&&( <Text style={{marginTop:5,marginStart:5,color:'red'}}>
+            Minimum eight characters, at least one letter, one number and one special character
+          </Text>)
+        }
+            </View>)}</Foect.Control>
+            
       </View>  
       <View style={{
         flexDirection:'row',
@@ -137,7 +202,10 @@ const Signup = ({navigation}) => {
         style={{
           marginTop:18,
           marginBottom:4,
-        }}/>
+        }}
+        onPress={()=>form.submit()}/>
+          </View>}</Foect.Form>
+        
         <View style={{flexDirection:'row',alignItems:'center',marginVertical:20}}>
           <View style={{
             flex:1,
